@@ -1,0 +1,33 @@
+<template>
+    <div class="serach">
+        <input type="text" placeholder="Search Timeline" autofocus />
+    </div>
+</template>
+
+<script>
+export default {
+  name: 'Search',
+  props: {
+    
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+    @import "/src/styles/reset.scss";
+    @import "/src/styles/global.scss";
+    @import "/src/styles/variables.scss";
+    @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap";
+
+    .serach {
+        input {
+            max-width: 570px;
+            width: 100%;
+            height: 52px;
+            border-radius: 5px;
+            border: 2px solid $grey-color;
+            padding: 0 15px;
+            font-weight: 700;
+        }
+    }
+</style>
