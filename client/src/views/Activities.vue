@@ -174,9 +174,15 @@ export default {
   @import "/src/styles/reset.scss";
   @import "/src/styles/global.scss";
   @import "/src/styles/variables.scss";
-  @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap";
+  @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700,900&display=swap";
 
-  .main-list{
+  .activities{
+    h1{
+      font-weight: 900;
+      font-size: 40px;
+    }
+
+    .main-list{
     .inner-list{
       .month{
         display: grid;
@@ -290,5 +296,6 @@ export default {
         margin-right: 10px;
       }
     }
+  }
   }
 </style>

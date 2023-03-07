@@ -59,7 +59,13 @@ export default {
   @import "/src/styles/variables.scss";
   @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap";
 .filter-nav{
+  h2{
+    margin: 20px 0;
+  }
+
   nav{
+    margin-bottom: 30px;
+    
     ul{
       gap: 12px;
       

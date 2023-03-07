@@ -20,6 +20,8 @@ export default {
     @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap";
 
     .serach {
+        margin-top:30px;
+
         input {
             max-width: 570px;
             width: 100%;
