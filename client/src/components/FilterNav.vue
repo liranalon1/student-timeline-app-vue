@@ -6,7 +6,7 @@
               <li 
               v-for="(item, index) in tabs" 
               :key="item.name"
-              @click="handleTab(index)">
+              @click="handleTab({index: index, tabName: item.name})">
               <a :class="[{'active': item.isActive}, 'flex']">
                   <font-awesome-icon icon="circle-check" v-if="item.isActive" /> {{ item.name }}
               </a>
@@ -37,7 +37,7 @@ export default {
   },
   mounted() {},
   methods: {
-    handleTab(index) {
+    handleTab({index, tabName}) {
       this.tabs.forEach((elem, i) => {
         if(i === index){
           elem.isActive = true;
@@ -46,7 +46,7 @@ export default {
         }
       });
 
-      this.$emit('input', index);
+      this.$emit('input', tabName);
     }    
   },
   computed: {},
@@ -57,7 +57,7 @@ export default {
   @import "/src/styles/reset.scss";
   @import "/src/styles/global.scss";
   @import "/src/styles/variables.scss";
-  @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap";
+  @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap";
 .filter-nav{
   h2{
     margin: 20px 0;
@@ -65,7 +65,7 @@ export default {
 
   nav{
     margin-bottom: 30px;
-    
+
     ul{
       gap: 12px;
       
