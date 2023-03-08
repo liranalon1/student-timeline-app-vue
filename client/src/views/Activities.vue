@@ -5,6 +5,12 @@
 
       <Search v-model="searchValue" />
       <FilterNav v-model="tabValue" />
+      <Modal 
+        v-if="showModal"
+        v-model="showModal"
+        :item="selectedActivity"
+        :showScore="showScore"
+      />
 
       <div class="main-list">
         <div class="inner-list" 
@@ -17,24 +23,23 @@
               class="row flex"
               :key="item.id">
 
-              <div class="inner flex">
-                <div class="icon">
-                  <img :src="item.topic_data.icon_path" :alt="item.topic_data.name" />
-                </div>
-                <div class="details flex">
-                  <p>{{ item.title }}</p>
-                  <span class="date">{{ dateAndTime(item.d_created) }}</span>
-                </div>
-              </div>
+              <DetailsItem 
+                :imageSrc="item.topic_data.icon_path"
+                :title="item.title"
+                :dateCreated="dateAndTime(item.d_created)"
+              />
 
-              <div class="inner flex">
+              <div class="inner-right flex">
                 <div class="score flex" 
-                  v-show="activityTypes[item.resource_type] !== undefined && activityTypes[item.resource_type].score">
+                  v-show="handleScore(item.resource_type)">
                   <span>Score</span> {{ item.score }}/10
                 </div>
                 <div class="view-work flex" 
-                  v-show="activityTypes[item.resource_type] !== undefined && activityTypes[item.resource_type].zoom">
-                  <a><font-awesome-icon icon="eye" /> View work</a>
+                  v-show="handleZoom(item.resource_type)">
+                  <a @click="handleModal({item: item, showScore: handleScore(item.resource_type)})">
+                    <font-awesome-icon icon="eye" /> 
+                    View work
+                  </a>
                 </div>
               </div>
       
@@ -56,6 +61,8 @@
 // @ is an alias to /src
 import Search from '@/components/Search.vue';
 import FilterNav from '@/components/FilterNav.vue';
+import Modal from '@/components/Modal.vue';
+import DetailsItem from '@/components/DetailsItem.vue';
 import { callAPI } from "@/services";
 import dayjs from 'dayjs';
 
@@ -63,15 +70,19 @@ export default {
   name: 'activities',
   components: {
     Search,
-    FilterNav
+    FilterNav,
+    Modal,
+    DetailsItem,
   },
   data() {
     return {
+      showModal: false,
       tabValue: "",
       searchValue: "",
       allMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       months: [],
       activities: [],
+      selectedActivity: {},
       activityTypes: {
         "movie": {
           score: false,
@@ -109,6 +120,7 @@ export default {
           score: false,
           zoom: true
         },
+        showScore: null,
       }
     }
   },
@@ -169,6 +181,20 @@ export default {
         const searchValueIncludesInTitle = item.title.toLowerCase().includes(this.searchValue.toLowerCase());
         return monthIsIncludes && tabValueIncludesInTitle && searchValueIncludesInTitle;
       })
+    },
+
+    handleModal({item, showScore}) {
+      this.selectedActivity = item;
+      this.showScore = showScore;
+      this.showModal = true;
+    },
+
+    handleScore(resourceType) {
+      return this.activityTypes[resourceType] !== undefined && this.activityTypes[resourceType].score;
+    },
+
+    handleZoom(resourceType) {
+      return this.activityTypes[resourceType] !== undefined && this.activityTypes[resourceType].zoom;
     }
   },
   computed: {},
@@ -228,55 +254,34 @@ export default {
             bottom: -28px;
           }
 
-          .inner{
+          ::v-deep .details-item {
             align-items: center;
+            gap: 20px;
 
-            &:first-child{
-              gap: 20px;
+            .details {
+              gap: 10px;
+            }
+          }
 
-              .icon{
-                width: 65px;
-                height: 65px;
-                background: #01c5c4;
-                border-radius: 50%;
+          .inner-right {
+            gap: 30px;
+            .view-work, .score {
+              color: $secondary-color;
+              font-weight: 700;
+            }
 
-                img{
+            .score {
+              gap: 10px;
 
-                }
+              span{
+                font-weight: 400;
               }
             }
 
-            &:last-child{
-              gap: 30px;
-
-              .view-work, .score {
-                color: $secondary-color;
-                font-weight: 700;
-              }
-
-              .score {
-                gap: 10px;
-
-                span{
-                  font-weight: 400;
-                }
-              }
-
-              .view-work{
-                gap: 8px;
-                align-items: center;
-              }
-            }
-
-            .details{
-              flex-direction: column;
-              gap: 15px;
-
-              p{
-                font-weight: 700;
-                text-transform: capitalize;
-              }
-            }
+            .view-work{
+              gap: 8px;
+              align-items: center;
+            }            
           }
         }
       }
