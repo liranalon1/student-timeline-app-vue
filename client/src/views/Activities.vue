@@ -1,40 +1,39 @@
 <template>
   <div class="activities">
     <div class="container">
-      <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
       <h1>Timeline</h1>
-      {{ parentValue }}
-      <Search />
-      <FilterNav v-model="parentValue" />
+
+      <Search v-model="searchValue" />
+      <FilterNav v-model="tabValue" />
 
       <div class="main-list">
         <div class="inner-list" 
           v-for="month in months" 
           :key="month">
-          <span class="month">{{ month }}</span>
+          <span class="month" v-if="filteredList(month).length">{{ month }}</span>
           <ul>
             <li 
-              v-for="activity in activities.filter(item => item.monthName.includes(month))"
+              v-for="item in filteredList(month)"
               class="row flex"
-              :key="activity.id">
+              :key="item.id">
 
               <div class="inner flex">
                 <div class="icon">
-                  <img :src="activity.topic_data.icon_path" :alt="activity.topic_data.name" />
+                  <img :src="item.topic_data.icon_path" :alt="item.topic_data.name" />
                 </div>
                 <div class="details flex">
-                  <p>{{ activity.topic_data.name }} {{ activity.resource_type.replaceAll("_", " ") }}</p>
-                  <span class="date">{{ dateAndTime(activity.d_created) }}</span>
+                  <p>{{ item.title }}</p>
+                  <span class="date">{{ dateAndTime(item.d_created) }}</span>
                 </div>
               </div>
 
               <div class="inner flex">
                 <div class="score flex" 
-                  v-show="activityTypes[activity.resource_type] !== undefined && activityTypes[activity.resource_type].score">
-                  <span>Score</span> {{ activity.score }}/10
+                  v-show="activityTypes[item.resource_type] !== undefined && activityTypes[item.resource_type].score">
+                  <span>Score</span> {{ item.score }}/10
                 </div>
                 <div class="view-work flex" 
-                  v-show="activityTypes[activity.resource_type] !== undefined && activityTypes[activity.resource_type].zoom">
+                  v-show="activityTypes[item.resource_type] !== undefined && activityTypes[item.resource_type].zoom">
                   <a><font-awesome-icon icon="eye" /> View work</a>
                 </div>
               </div>
@@ -68,7 +67,8 @@ export default {
   },
   data() {
     return {
-      parentValue: 'hello',
+      tabValue: "",
+      searchValue: "",
       allMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       months: [],
       activities: [],
@@ -148,9 +148,11 @@ export default {
       arr.map((item) => {
         const monthNum = dayjs(item.d_created).month();
         const monthName = this.allMonthNames[monthNum];
+        const title = `${item.topic_data.name} ${item.resource_type.replaceAll("_", " ")}`
 
         this.activities.push({
           monthName,
+          title,
           ...item
         })
       });
@@ -159,14 +161,17 @@ export default {
     dateAndTime(timestamp) {
       return dayjs(timestamp).format("MMM D, YYYY · h:mm a");
     },
-  },
-  computed: {
-    filteredList() {
-      return this.activities.filter(activity => {
-        return activity.title.toLowerCase().includes(this.search.toLowerCase())
+
+    filteredList(month) {
+      return this.activities.filter(item => {
+        const monthIsIncludes = item.monthName.includes(month);
+        const tabValueIncludesInTitle = item.title.toLowerCase().includes(this.tabValue.toLowerCase());
+        const searchValueIncludesInTitle = item.title.toLowerCase().includes(this.searchValue.toLowerCase());
+        return monthIsIncludes && tabValueIncludesInTitle && searchValueIncludesInTitle;
       })
     }
   },
+  computed: {},
 }
 </script>
 

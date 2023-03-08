@@ -22,16 +22,46 @@ export default {
   data() {
     return {
       tabs: [
-        {name: "All Work", isActive: true},
-        {name: "Movie", isActive: false},
-        {name: "Quiz", isActive: false},
-        {name: "Easy Quiz", isActive: false},
-        {name: "Make-a-Map", isActive: false},
-        {name: "Make-a-Movie", isActive: false},
-        {name: "World Play", isActive: false},
-        {name: "Related Reading", isActive: false},
-        {name: "Challenge", isActive: false},
-        {name: "Draw About It", isActive: false},
+        {
+          name: "All Work", 
+          isActive: true
+        },
+        {
+          name: "Movie", 
+          isActive: false
+        },
+        {
+          name: "Quiz", 
+          isActive: false
+        },
+        {
+          name: "Easy Quiz", 
+          isActive: false
+        },
+        {
+          name: "Make a Map", 
+          isActive: false
+        },
+        {
+          name: "Make a Movie", 
+          isActive: false
+        },
+        {
+          name: "World Play", 
+          isActive: false
+        },
+        {
+          name: "Related Reading", 
+          isActive: false
+        },
+        {
+          name: "Challenge", 
+          isActive: false
+        },
+        {
+          name: "Draw About It", 
+          isActive: false
+        },
       ],
     }
   },
@@ -46,7 +76,11 @@ export default {
         }
       });
 
-      this.$emit('input', tabName);
+      if( tabName === "All Work" ) {
+        this.$emit('input', "");  
+      }else{
+        this.$emit('input', tabName);
+      }
     }    
   },
   computed: {},
@@ -62,13 +96,10 @@ export default {
   h2{
     margin: 20px 0;
   }
-
   nav{
     margin-bottom: 30px;
-
     ul{
       gap: 12px;
-      
       li {
         a{
           align-items: center;
@@ -80,7 +111,6 @@ export default {
           border: 2px solid $secondary-color;
           color: $secondary-color;
           font-weight: 700;
-
           &:hover, &.active{
             background: #eafcfc;
           }

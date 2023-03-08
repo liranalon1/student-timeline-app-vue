@@ -1,6 +1,6 @@
 <template>
     <div class="serach">
-        <input type="text" placeholder="Search Timeline" autofocus />
+        <input type="text" placeholder="Search Timeline" autofocus @input="search($event)" />
     </div>
 </template>
 
@@ -9,6 +9,11 @@ export default {
   name: 'Search',
   props: {
     
+  },
+  methods: {
+    search(e) {
+        this.$emit('input', e.target.value.trim());
+    }    
   },
 };
 </script>
