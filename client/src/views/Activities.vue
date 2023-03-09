@@ -197,12 +197,14 @@ export default {
 
     handleModal(item) {
         const urlParam = this.$route.params.modal;
-        
+        //  in case user clicked on "view work"
         if(item !== undefined){
           this.selectedActivity = item;
           this.$router.push({path: `/${item.id}`}).catch(() => {});
           this.showModal = true;
-        } else if( urlParam ) {
+        } 
+        //  in case the url param id is equal to activities item id
+        else if( urlParam ) {
             this.activities.filter(elem => {
               if( elem.id === urlParam ) {
                 this.selectedActivity = elem;
@@ -211,7 +213,8 @@ export default {
           if(this.selectedActivity !== "") {
             this.showModal = true;
           }
-        } else {
+        } 
+        else {
           this.showModal = false;
         }
     },
