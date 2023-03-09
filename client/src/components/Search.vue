@@ -1,6 +1,7 @@
 <template>
     <div class="serach">
         <input type="text" placeholder="Search Timeline" autofocus @input="search($event)" />
+        <div class="search-icon"><font-awesome-icon icon="magnifying-glass" /></div>
     </div>
 </template>
 
@@ -25,16 +26,34 @@ export default {
     @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap";
 
     .serach {
+        position: relative;
+        max-width: 570px;
+        width: 100%;
+        height: 52px;
+        border-radius: 5px;
+        border: 2px solid $grey-color;
         margin-top:30px;
-
         input {
-            max-width: 570px;
             width: 100%;
-            height: 52px;
-            border-radius: 5px;
-            border: 2px solid $grey-color;
+            height: 100%;
             padding: 0 15px;
             font-weight: 700;
+        }
+        .search-icon{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: $secondary-color;
+            display: grid;
+            place-items: center;
+            svg {
+                height: 1.3em;
+                path {
+                    fill: #fff;
+                }
+            }
         }
     }
 </style>
