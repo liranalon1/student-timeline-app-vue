@@ -57,21 +57,21 @@ export default {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%,);
-        max-width: 1145px;
+        max-width: 1000px;
         width: 100%;
-        height: 645px;
+        height: 650px;
         border-radius: 20px;
         border: 6px solid #a0a0a0;
-        padding: 0 30px;
+        padding: 30px;
         background: #fff;
         .close{
             top: 30px;
             right: 30px;
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            border: 6px solid #a0a0a0;
+            border: 5px solid #a0a0a0;
             background: #fff;
 
             svg {
@@ -84,11 +84,14 @@ export default {
         }
 
         .inner{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             ::v-deep .details-item {
+                display: flex;
                 align-items: center;
-                justify-content: center;
                 flex-direction: column;
-                margin-top: 60px;
+                margin-top: 30px;
                 .icon{
                     width: 5.5rem;
                     height: 5.5rem;
@@ -116,7 +119,7 @@ export default {
                 color: $secondary-color;
                 font-weight: 700;
                 font-size: 2rem;
-                margin-top: 140px;
+                margin-top: auto;
                 margin-left: 20px;
 
                 span{

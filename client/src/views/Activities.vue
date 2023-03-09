@@ -19,8 +19,8 @@
           <span class="month" v-if="filteredList(month).length">{{ month }}</span>
           <ul>
             <li 
-              v-for="item in filteredList(month)"
-              class="row flex"
+              v-for="(item, index) in filteredList(month)"
+              :class="['row flex', {'lastRow': index === filteredList(month).length - 1 }]"
               :key="item.id">
 
               <DetailsItem 
@@ -237,7 +237,7 @@ export default {
           padding: 0 30px;
           margin: 26px 0;
 
-          &::before, &::after {
+          &::before, &:not(.lastRow)::after {
             content: "";
             position: absolute;
             left: 75px;
@@ -285,16 +285,6 @@ export default {
           }
         }
       }
-
-      .inner-list:last-child{
-        background: red;  
-        .row:last-child{
-          &::after {
-            content: none;  //  need to check why it doesn't work !!!!
-          }
-        }
-      }
-
     }
 
     .load-more{
