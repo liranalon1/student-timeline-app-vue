@@ -128,9 +128,9 @@ export default {
     this.getActivities(`activities/v1`);
   },
   watch: {
-    $route(to, from) {
-      this.handleModal();
-    },
+    // $route(to, from) {
+    //   this.handleModal();
+    // },
     showModal(to, from) {
       if(to == false) {
         if(this.$route.params.modal) {

@@ -95,6 +95,15 @@ export default {
                 .icon{
                     width: 5.5rem;
                     height: 5.5rem;
+
+                    &.bpjr{
+                        ::after{
+                            bottom: -3px;
+                            right: -10px;
+                            width: 2.5em;
+                            height: 2.5em;
+                        }
+                    }                    
                 }
                 .details {
                     text-align: center;

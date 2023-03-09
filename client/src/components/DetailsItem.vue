@@ -33,8 +33,8 @@ export default {
     .details-item {
         .icon{
             position: relative;
-            width: 65px;
-            height: 65px;
+            width: 4rem;
+            height: 4rem;
             border-radius: 50%;
             &.bp{
                 background: #01c5c4;
@@ -48,8 +48,8 @@ export default {
                     bottom: -3px;
                     right: -10px;
                     background: #ffc65f;
-                    width: 25px;
-                    height: 25px;
+                    width: 1.5em;
+                    height: 1.5em;
                     border-radius: 50%;
                     color: #5e3114;
                     display: grid;
