@@ -6,8 +6,8 @@
       <Search v-model="searchValue" />
       <FilterNav v-model="tabValue" />
       <Modal 
-        v-if="showModal"
         v-model="showModal"
+        :showModal="showModal"
         :item="selectedActivity"
         :showScore="showScore"
       />

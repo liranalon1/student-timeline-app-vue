@@ -1,5 +1,5 @@
 <template>
-    <div class="modal">
+    <div :class="['modal', {'open': showModal}]">
         <button class="close" @click="closeModal">
             <font-awesome-icon icon="xmark"/>
         </button>
@@ -30,6 +30,7 @@ export default {
     DetailsItem,
   },
   props: {
+    showModal: Boolean,
     item: Object,
     showScore: Boolean
   },
@@ -57,13 +58,29 @@ export default {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%,);
-        max-width: 1000px;
+        max-width: 55vw;
         width: 100%;
-        height: 650px;
+        height: 75vh;
         border-radius: 20px;
         border: 6px solid #a0a0a0;
         padding: 30px;
         background: #fff;
+        transition-duration: top;
+        transition-duration: 900ms;
+
+        &:not(.open){
+            display: none;
+        }
+
+        &.open{
+            animation: fadeup 250ms;
+        }
+
+        @keyframes fadeup {
+            from { opacity: 0; top: 53%; }
+            to { opacity: 1; top: 50%; }
+        }
+
         .close{
             top: 30px;
             right: 30px;
