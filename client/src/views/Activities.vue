@@ -124,8 +124,8 @@ export default {
       }
     }
   },
-  created() {
-    this.getActivities(`activities/v1`);
+  mounted() {
+    this.getActivities(`v1`);
   },
   watch: {
     // $route(to, from) {
@@ -142,16 +142,29 @@ export default {
   methods: {
     getActivities(url) {
         callAPI({
-            url: url, 
+            url: `activities/${url}`, 
             params: {
               method: "get",
             }          
         })
         .then((res) => {
             if(res.status === 200){
-                this.setMonths(res.data);
-                this.setActivities(res.data);
-                this.handleModal();
+              const arr = res.data.map(item => {
+                //  in case the API is V2:
+                if ('activities' in item){
+                  const obj = {
+                    ...item.activities[0],
+                    resource_type: item.resource_type
+                  }
+                  return obj;
+                }else{
+                  return item;
+                }
+              });
+
+              this.setMonths(arr);
+              this.setActivities(arr);
+              this.handleModal();
             }else{
                 console.log(res);
             }
