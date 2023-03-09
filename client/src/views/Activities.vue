@@ -6,10 +6,9 @@
       <Search v-model="searchValue" />
       <FilterNav v-model="tabValue" />
       <Modal 
+        v-if="showModal"
         v-model="showModal"
-        :showModal="showModal"
         :item="selectedActivity"
-        :showScore="showScore"
       />
 
       <div class="main-list">
@@ -36,7 +35,7 @@
                 </div>
                 <div class="view-work flex" 
                   v-show="handleZoom(item.resource_type)">
-                  <a @click="handleModal({item: item, showScore: handleScore(item.resource_type)})">
+                  <a @click="handleModal(item)">
                     <font-awesome-icon icon="eye" /> 
                     View work
                   </a>
@@ -120,12 +119,24 @@ export default {
           score: false,
           zoom: true
         },
-        showScore: null,
+        showScore: false,
       }
     }
   },
-  mounted() {
+  created() {
     this.getActivities(`activities/v1`);
+  },
+  watch: {
+    $route(to, from) {
+      this.handleModal();
+    },
+    showModal(to, from) {
+      if(to == false) {
+        if(this.$route.params.modal) {
+          this.$router.push('/');
+        }
+      }
+    }
   },
   methods: {
     getActivities(url) {
@@ -139,6 +150,7 @@ export default {
             if(res.status === 200){
                 this.setMonths(res.data);
                 this.setActivities(res.data);
+                this.handleModal();
             }else{
                 console.log(res);
             }
@@ -183,10 +195,25 @@ export default {
       })
     },
 
-    handleModal({item, showScore}) {
-      this.selectedActivity = item;
-      this.showScore = showScore;
-      this.showModal = true;
+    handleModal(item) {
+        const urlParam = this.$route.params.modal;
+        
+        if(item !== undefined){
+          this.selectedActivity = item;
+          this.$router.push({path: `/${item.id}`}).catch(() => {});
+          this.showModal = true;
+        } else if( urlParam ) {
+            this.activities.filter(elem => {
+              if( elem.id === urlParam ) {
+                this.selectedActivity = elem;
+              }
+            });
+          if(this.selectedActivity !== "") {
+            this.showModal = true;
+          }
+        } else {
+          this.showModal = false;
+        }
     },
 
     handleScore(resourceType) {

@@ -1,5 +1,5 @@
 <template>
-    <div :class="['modal', {'open': showModal}]">
+    <div class="modal">
         <button class="close" @click="closeModal">
             <font-awesome-icon icon="xmark"/>
         </button>
@@ -13,7 +13,7 @@
             <div class="comment">{{ item.comment }}</div>
 
             <div class="score flex" 
-                v-show="showScore">
+                v-show="item.score !== ''">
                 <span>Score</span> {{ item.score }}/10
             </div>
         </div>
@@ -30,9 +30,7 @@ export default {
     DetailsItem,
   },
   props: {
-    showModal: Boolean,
     item: Object,
-    showScore: Boolean
   },
   methods: {
     closeModal() {
@@ -65,22 +63,6 @@ export default {
         border: 6px solid #a0a0a0;
         padding: 30px;
         background: #fff;
-        transition-duration: top;
-        transition-duration: 900ms;
-
-        &:not(.open){
-            display: none;
-        }
-
-        &.open{
-            animation: fadeup 250ms;
-        }
-
-        @keyframes fadeup {
-            from { opacity: 0; top: 53%; }
-            to { opacity: 1; top: 50%; }
-        }
-
         .close{
             top: 30px;
             right: 30px;

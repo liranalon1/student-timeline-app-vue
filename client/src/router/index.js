@@ -7,8 +7,13 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'activities',
+    name: 'Activities',
     component: Activities,
+    children: [
+      {
+        path: ':modal'
+      }
+    ]
   },
 ];
 
