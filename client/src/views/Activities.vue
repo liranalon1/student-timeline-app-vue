@@ -49,7 +49,10 @@
           </ul>
         </div>
 
-        <div class="load-more" @click="getActivities(`activities/v2`)">
+        <div 
+          v-if="activitiesToShow < activities.length || activities.length > activitiesToShow" 
+          class="load-more" 
+          @click="activitiesToShow += 10">
           <a><font-awesome-icon icon="chevron-down" /> Load More</a>
         </div>
 
@@ -123,8 +126,8 @@ export default {
           score: false,
           zoom: true
         },
-        showScore: false,
-      }
+      },
+      activitiesToShow: 10,
     }
   },
   mounted() {
@@ -224,7 +227,7 @@ export default {
     },
 
     filteredList(month) {
-      return this.activities.filter(item => {
+      return this.activities.slice(0, this.activitiesToShow).filter(item => {
         const monthIsIncludes = item.monthName.includes(month);
         const tabValueIncludesInTitle = item.title.toLowerCase().includes(this.tabValue.toLowerCase());
         const searchValueIncludesInTitle = item.title.toLowerCase().includes(this.searchValue.toLowerCase());
