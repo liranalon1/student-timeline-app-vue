@@ -3,6 +3,8 @@
     <div class="container">
       <h1>Timeline</h1>
 
+      <button @click="toggleAPI">Switch To API {{currentAPI}}</button>
+
       <Search v-model="searchValue" />
       <FilterNav v-model="tabValue" />
       <Modal 
@@ -24,7 +26,7 @@
 
               <DetailsItem 
                 :productVariant="item.product"
-                :imageSrc="item.topic_data.icon_path"
+                :imageSrc="getImgSrc(item.topic_data.name)"
                 :title="item.title"
                 :dateCreated="dateAndTime(item.d_created)"
               />
@@ -76,6 +78,7 @@ export default {
   },
   data() {
     return {
+      currentAPI: "v1",
       showModal: false,
       tabValue: "",
       searchValue: "",
@@ -125,7 +128,7 @@ export default {
     }
   },
   mounted() {
-    this.getActivities(`v1`);
+    this.getActivities(`activities/${this.currentAPI}`);
   },
   watch: {
     // $route(to, from) {
@@ -140,9 +143,19 @@ export default {
     }
   },
   methods: {
-    getActivities(url) {
+    toggleAPI() {
+      if( this.currentAPI === "v1" ){
+        this.currentAPI = "v2";
+      }else{
+        this.currentAPI = "v1";
+      }
+      this.activities.splice(0);
+      this.getActivities(`activities/${this.currentAPI}`);
+    },
+
+    getActivities(api) {
         callAPI({
-            url: `activities/${url}`, 
+            url: api, 
             params: {
               method: "get",
             }          
@@ -152,15 +165,25 @@ export default {
               const arr = res.data.map(item => {
                 //  in case the API is V2:
                 if ('activities' in item){
-                  const obj = {
-                    ...item.activities[0],
+                  let obj = {};
+                  const itemsInActivities = item.activities.map((e, i) => item.activities[i])
+
+                  const obj2 = {
+                    ...itemsInActivities,
                     resource_type: item.resource_type
                   }
-                  return obj;
+                  
+                  // debugger
+
+                  
+
+                  return obj2;
                 }else{
                   return item;
                 }
               });
+
+              
 
               this.setMonths(arr);
               this.setActivities(arr);
@@ -239,9 +262,16 @@ export default {
 
     handleZoom(resourceType) {
       return this.activityTypes[resourceType] !== undefined && this.activityTypes[resourceType].zoom;
+    },
+
+    getImgSrc(name) {
+      const images = require.context('../assets/topics', false, /\.png$/);
+      return images(`./${name.replaceAll(' ', '')}.png`);
     }
   },
-  computed: {},
+  computed: {
+    
+  },
 }
 </script>
 

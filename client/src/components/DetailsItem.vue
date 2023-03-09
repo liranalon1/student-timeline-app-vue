@@ -36,17 +36,19 @@ export default {
             width: 4rem;
             height: 4rem;
             border-radius: 50%;
+            display: grid;
+            place-items: center;
             &.bp{
                 background: #01c5c4;
             }
             &.bpjr{
                 background: #f7af0f;
-                ::after{
+                &::after{
                     content: "Jr.";
                     position: absolute;
                     z-index: 1;
-                    bottom: -3px;
-                    right: -10px;
+                    bottom: 0;
+                    right: -8px;
                     background: #ffc65f;
                     width: 1.5em;
                     height: 1.5em;
@@ -57,6 +59,10 @@ export default {
                     font-size: 1rem;
                     font-weight: 900;
                 }
+            }
+
+            img {
+                max-width: 80%;
             }
         }
 

@@ -6,7 +6,7 @@
         <div class="inner">
             <DetailsItem 
                 :productVariant="item.product"
-                :imageSrc="item.topic_data.icon_path"
+                :imageSrc="getImgSrc(item.topic_data.name)"
                 :title="item.title"
                 :dateCreated="dateAndTime(item.d_created)"
             />
@@ -41,6 +41,11 @@ export default {
     dateAndTime(timestamp) {
       return dayjs(timestamp).format("MMM D, YYYY · h:mm a");
     },
+
+    getImgSrc(name) {
+      const images = require.context('../assets/topics', false, /\.png$/);
+      return images(`./${name.replaceAll(' ', '')}.png`);
+    }
   },
 };
 </script>
@@ -97,11 +102,9 @@ export default {
                     height: 5.5rem;
 
                     &.bpjr{
-                        ::after{
-                            bottom: -3px;
-                            right: -10px;
-                            width: 2.5em;
-                            height: 2.5em;
+                        &::after{
+                            width: 2em;
+                            height: 2em;
                         }
                     }                    
                 }
