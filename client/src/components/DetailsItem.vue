@@ -1,6 +1,6 @@
 <template>
     <div class="details-item flex">
-        <div class="icon">
+        <div :class="['icon', `${productVariant}`]">
             <img :src="imageSrc" :alt="title" />
         </div>
         <div class="details flex">
@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 export default {
   name: 'Modal',
   props: {
+    productVariant: String,
     imageSrc: String,
     title: String,
     dateCreated: String,
@@ -31,10 +32,32 @@ export default {
 
     .details-item {
         .icon{
+            position: relative;
             width: 65px;
             height: 65px;
-            background: #01c5c4;
             border-radius: 50%;
+            &.bp{
+                background: #01c5c4;
+            }
+            &.bpjr{
+                background: #f7af0f;
+                ::after{
+                    content: "Jr.";
+                    position: absolute;
+                    z-index: 1;
+                    bottom: -3px;
+                    right: -10px;
+                    background: #ffc65f;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    color: #5e3114;
+                    display: grid;
+                    place-items: center;
+                    font-size: 1rem;
+                    font-weight: 900;
+                }
+            }
         }
 
         .details{

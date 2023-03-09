@@ -5,6 +5,7 @@
         </button>
         <div class="inner">
             <DetailsItem 
+                :productVariant="item.product"
                 :imageSrc="item.topic_data.icon_path"
                 :title="item.title"
                 :dateCreated="dateAndTime(item.d_created)"
