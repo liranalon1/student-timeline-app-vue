@@ -27,7 +27,6 @@ export default {
 
     .serach {
         position: relative;
-        max-width: 31.667rem;
         width: 100%;
         height: 2.889rem;
         border-radius: 5px;

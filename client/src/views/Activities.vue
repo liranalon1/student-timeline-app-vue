@@ -5,7 +5,12 @@
 
       <button class="switch-api" @click="toggleAPI">Switch API >></button>
 
-      <Search v-model="searchValue" />
+      <div class="search-wrap">
+        <Search v-model="searchValue" />
+        <AutoComplete 
+          v-if="filteredList.length && searchValue"
+          :items="filteredList" />
+      </div>
       <FilterNav v-model="tabValue" />
       <Modal 
         v-if="showModal"
@@ -17,11 +22,14 @@
         <div class="inner-list" 
           v-for="month in months" 
           :key="month">
-          <span class="month" v-if="filteredList(month).length">{{ month }}</span>
+          <span class="month" 
+            v-if="filteredList.filter(({monthName}) => monthName.includes(month)).length">
+            {{ month }}
+          </span>
           <ul>
             <li 
-              v-for="(item, index) in filteredList(month)"
-              :class="['row flex', {'lastRow': index === filteredList(month).length - 1 }]"
+              v-for="(item, index) in filteredList.filter(({monthName}) => monthName.includes(month))"
+              :class="['row flex', {'lastRow': index === filteredList.filter(({monthName}) => monthName.includes(month)).length - 1 }]"
               :key="item.id">
 
               <DetailsItem 
@@ -65,6 +73,7 @@
 <script>
 // @ is an alias to /src
 import Search from '@/components/Search.vue';
+import AutoComplete from '@/components/AutoComplete.vue';
 import FilterNav from '@/components/FilterNav.vue';
 import Modal from '@/components/Modal.vue';
 import DetailsItem from '@/components/DetailsItem.vue';
@@ -75,6 +84,7 @@ export default {
   name: 'activities',
   components: {
     Search,
+    AutoComplete,
     FilterNav,
     Modal,
     DetailsItem,
@@ -83,6 +93,7 @@ export default {
     return {
       currentAPI: "",
       showModal: false,
+      showAutoComplete: false,
       tabValue: "",
       searchValue: "",
       allMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -251,15 +262,6 @@ export default {
       return dayjs(timestamp).format("MMM D, YYYY · h:mm a");
     },
 
-    filteredList(month) {
-      return this.activities.slice(0, this.activitiesToShow).filter(item => {
-        const monthIsIncludes = item.monthName.includes(month);
-        const tabValueIncludesInTitle = item.title.toLowerCase().includes(this.tabValue.toLowerCase());
-        const searchValueIncludesInTitle = item.title.toLowerCase().includes(this.searchValue.toLowerCase());
-        return monthIsIncludes && tabValueIncludesInTitle && searchValueIncludesInTitle;
-      })
-    },
-
     handleModal(item) {
       const urlHash = this.$route.hash;
       if(item === undefined && !urlHash){
@@ -296,6 +298,13 @@ export default {
     },
   },
   computed: {
+    filteredList() {
+      return this.activities.slice(0, this.activitiesToShow).filter(item => {
+        const tabValueIncludesInTitle = item.title.toLowerCase().includes(this.tabValue.toLowerCase());
+        const searchValueIncludesInTitle = item.title.toLowerCase().includes(this.searchValue.toLowerCase());
+        return tabValueIncludesInTitle && searchValueIncludesInTitle;
+      })
+    },
     handleLoadMore() {
       return this.activitiesToShow < this.activities.length || this.activities.length > this.activitiesToShow;
     },
@@ -321,7 +330,10 @@ export default {
       margin-top: 1.111rem;
       text-decoration: underline;      
     }
-
+    .search-wrap{
+      max-width: 31.667rem;
+      position: relative;
+    }
     .main-list{
     .inner-list{
       .month{
