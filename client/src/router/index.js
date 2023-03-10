@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'Activities',
+    name: 'activities',
     component: Activities,
     children: [
       {

@@ -19,6 +19,13 @@
 <script>
 export default {
   name: 'FilterNav',
+  watch:{
+    $route (to, from){
+      if(this.$route.path){
+        this.handleTab({index: 0, tabName: this.tabs[0].name})
+      }
+    }
+  },
   data() {
     return {
       tabs: [

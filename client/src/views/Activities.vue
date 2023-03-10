@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-      currentAPI: "v1",
+      currentAPI: "",
       showModal: false,
       tabValue: "",
       searchValue: "",
@@ -131,7 +131,7 @@ export default {
     }
   },
   mounted() {
-    this.getData(`activities/${this.currentAPI}`);
+    this.init();
   },
   watch: {
     // $route(to, from) {
@@ -140,12 +140,33 @@ export default {
     showModal(to, from) {
       if(to == false) {
         if(this.$route.params.modal) {
-          this.$router.push('/');
+          this.$router.push(this.$route.path);
         }
       }
     }
   },
   methods: {
+    init() {
+      const expr = this.$route.path;
+      switch (expr) {
+        case '/v1':
+          this.currentAPI = "v1";
+          this.getData(`activities/v1`);
+          break;
+        case '/v2':
+          this.currentAPI = "v2";
+          this.getData(`activities/v2`);
+          break;
+        default:
+          this.currentAPI = "v1";
+          this.getData(`activities/v1`);
+      }
+    },
+
+    changePathToCurrentAPI() {
+      this.$router.push({path: `/${this.currentAPI}`}).catch(() => {});
+    },
+
     toggleAPI() {
       if( this.currentAPI === "v1" ){
         this.currentAPI = "v2";
@@ -243,27 +264,23 @@ export default {
     },
 
     handleModal(item) {
-        const urlParam = this.$route.params.modal;
-        //  in case user clicked on "view work"
-        if(item !== undefined){
-          this.selectedActivity = item;
-          this.$router.push({path: `/${item.id}`}).catch(() => {});
-          this.showModal = true;
-        } 
-        //  in case the url param id is equal to activities item id
-        else if( urlParam ) {
-            this.activities.filter(elem => {
-              if( elem.id === urlParam ) {
-                this.selectedActivity = elem;
-              }
-            });
-          if(this.selectedActivity !== "") {
+      const urlHash = this.$route.hash;
+      if(item === undefined && !urlHash){
+        this.changePathToCurrentAPI();
+      }
+      else if( urlHash.includes("id=") ) {
+        this.activities.filter(elem => {
+          if( urlHash.split('#id=')[1] === elem.id ) {
+            this.selectedActivity = elem;
             this.showModal = true;
           }
-        } 
-        else {
-          this.showModal = false;
-        }
+        });
+      }
+      else {
+        this.selectedActivity = item;
+        this.$router.push({hash: `id=${item.id}`}).catch(() => {});
+        this.showModal = true;          
+      }
     },
 
     handleScore(resourceType) {
