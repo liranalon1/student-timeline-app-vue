@@ -3,7 +3,7 @@
     <div class="container">
       <h1>Timeline</h1>
 
-      <button @click="toggleAPI">Switch To API {{currentAPI}}</button>
+      <button class="switch-api" @click="toggleAPI">Switch API</button>
 
       <Search v-model="searchValue" />
       <FilterNav v-model="tabValue" />
@@ -166,28 +166,38 @@ export default {
         .then((res) => {
             if(res.status === 200){
               const arr = res.data.map(item => {
-                //  in case the API is V2:
-                if ('activities' in item){
+                if ('activities' in item){  //  in case the API is V2:
                   let obj = {};
-                  const itemsInActivities = item.activities.map((e, i) => item.activities[i])
 
-                  const obj2 = {
-                    ...itemsInActivities,
-                    resource_type: item.resource_type
+                  for(let i = 0; i < item.activities.length; i++) {
+                    if(item.activities.length > 1) {
+                      debugger
+                      item.activities.every(v => {
+                        debugger
+                        obj = {
+                          ...v,
+                          resource_type: item.resource_type
+                        }
+                        return false
+                      });
+
+                      break;
+                    } else {
+                      obj = {
+                        ...item.activities[i],
+                        resource_type: item.resource_type
+                      }
+                    }
+                    
                   }
-                  
-                  // debugger
 
-                  
+                  debugger
 
-                  return obj2;
+                  return obj;
                 }else{
                   return item;
                 }
               });
-
-              
-
               this.setMonths(arr);
               this.setActivities(arr);
               this.handleModal();
@@ -203,7 +213,6 @@ export default {
         const monthName = this.allMonthNames[monthNum];
         return monthName;
       });
-
       const uniqueMonthNames = [...new Set(months)];
       this.months = uniqueMonthNames;
     },
@@ -213,7 +222,6 @@ export default {
         const monthNum = dayjs(item.d_created).month();
         const monthName = this.allMonthNames[monthNum];
         const title = `${item.topic_data.name} ${item.resource_type.replaceAll("_", " ")}`
-
         this.activities.push({
           monthName,
           title,
@@ -290,13 +298,20 @@ export default {
       font-size: 2.222rem;
     }
 
+    .switch-api {
+      color: $secondary-color;
+      font-weight: 700;
+      margin-top: 1.111rem;
+      text-decoration: underline;      
+    }
+
     .main-list{
     .inner-list{
       .month{
         display: grid;
         place-items: center;
-        width: 155px;
-        height: 40px;
+        width: 8.611rem;
+        height: 2.222rem;
         background: #fcf7e1;
         border-radius: 50px;
         font-size: 1.111rem;
@@ -311,13 +326,13 @@ export default {
           align-items: center;
           border-radius: 5px;
           border: 2px solid $grey-color;
-          padding: 0 30px;
+          padding: 0 1.667rem;
           margin: 1.444rem 0;
 
           &::before, &:not(.lastRow)::after {
             content: "";
             position: absolute;
-            left: 75px;
+            left: 4.167rem;
             width: 2px;
             height: 1.556rem;
             background: $grey-color;
@@ -333,10 +348,10 @@ export default {
 
           ::v-deep .details-item {
             align-items: center;
-            gap: 20px;
+            gap: 1.111rem;
 
             .details {
-              gap: 10px;
+              gap: 0.556rem;
             }
           }
 
@@ -348,7 +363,7 @@ export default {
             }
 
             .score {
-              gap: 10px;
+              gap: 1.667rem;
 
               span{
                 font-weight: 400;
@@ -356,7 +371,7 @@ export default {
             }
 
             .view-work{
-              gap: 8px;
+              gap: 0.444rem;
               align-items: center;
             }            
           }
@@ -370,7 +385,7 @@ export default {
       font-weight: 700;
 
       svg {
-        margin-right: 10px;
+        margin-right: 0.556rem;
       }
     }
   }

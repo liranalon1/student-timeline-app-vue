@@ -94,19 +94,19 @@ export default {
   @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap";
 .filter-nav{
   h2{
-    margin: 20px 0;
+    margin: 1.111rem 0;
   }
   nav{
-    margin-bottom: 30px;
+    margin-bottom: 1.667rem;
     ul{
-      gap: 12px;
+      gap: 0.667rem;
       li {
         a{
           align-items: center;
           justify-content: center;
-          gap: 6px;
-          height: 52px;
-          padding: 0 20px;
+          gap: 0.333rem;
+          height: 2.889rem;
+          padding: 0 1.111rem;
           border-radius: 5px;
           border: 2px solid $secondary-color;
           color: $secondary-color;

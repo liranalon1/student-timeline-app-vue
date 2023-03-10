@@ -27,24 +27,24 @@ export default {
 
     .serach {
         position: relative;
-        max-width: 570px;
+        max-width: 31.667rem;
         width: 100%;
-        height: 52px;
+        height: 2.889rem;
         border-radius: 5px;
         border: 2px solid $grey-color;
-        margin-top:30px;
+        margin-top: 1.667rem;
         input {
             width: 100%;
             height: 100%;
-            padding: 0 15px;
+            padding: 0 0.833rem;
             font-weight: 700;
         }
         .search-icon{
             position: absolute;
             top: 0;
             right: 0;
-            width: 50px;
-            height: 50px;
+            width: 2.778rem;
+            height: 2.778rem;
             background: $secondary-color;
             display: grid;
             place-items: center;
