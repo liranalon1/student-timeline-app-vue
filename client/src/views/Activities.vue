@@ -134,9 +134,6 @@ export default {
     this.init();
   },
   watch: {
-    // $route(to, from) {
-    //   this.handleModal();
-    // },
     showModal(to, from) {
       if(to == false) {
         if(this.$route.params.modal) {
@@ -267,7 +264,9 @@ export default {
       const urlHash = this.$route.hash;
       if(item === undefined && !urlHash){
         this.changePathToCurrentAPI();
+        return
       }
+      //  in case there is urlHash
       else if( urlHash.includes("id=") ) {
         this.activities.filter(elem => {
           if( urlHash.split('#id=')[1] === elem.id ) {
