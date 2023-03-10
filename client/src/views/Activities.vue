@@ -50,7 +50,7 @@
         </div>
 
         <div 
-          v-if="activitiesToShow < activities.length || activities.length > activitiesToShow" 
+          v-if="handleLoadMore" 
           class="load-more" 
           @click="activitiesToShow += 10">
           <a><font-awesome-icon icon="chevron-down" /> Load More</a>
@@ -175,7 +175,7 @@ export default {
     handleAPIResponse({api, data}) {
       let arr = []
 
-      data.forEach((item, index) => {
+      data.forEach(item => {
         if(api === "v1"){
           item.d_created = this.getTimeStamp(item.d_created);
           arr.push(item);
@@ -277,10 +277,12 @@ export default {
     getImgSrc(name) {
       const images = require.context('../assets/topics', false, /\.png$/);
       return images(`./${name.replaceAll(' ', '')}.png`);
-    }
+    },
   },
   computed: {
-    
+    handleLoadMore() {
+      return this.activitiesToShow < this.activities.length || this.activities.length > this.activitiesToShow;
+    },
   },
 }
 </script>
