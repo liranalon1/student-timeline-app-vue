@@ -3,7 +3,7 @@
     <div class="container">
       <h1>Timeline</h1>
 
-      <button class="switch-api" @click="toggleAPI">Switch API</button>
+      <button class="switch-api" @click="toggleAPI">Switch API >></button>
 
       <Search v-model="searchValue" />
       <FilterNav v-model="tabValue" />
@@ -131,7 +131,7 @@ export default {
     }
   },
   mounted() {
-    this.getActivities(`activities/${this.currentAPI}`);
+    this.getData(`activities/${this.currentAPI}`);
   },
   watch: {
     // $route(to, from) {
@@ -153,10 +153,10 @@ export default {
         this.currentAPI = "v1";
       }
       this.activities.splice(0);
-      this.getActivities(`activities/${this.currentAPI}`);
+      this.getData(`activities/${this.currentAPI}`);
     },
 
-    getActivities(api) {
+    getData(api) {
         callAPI({
             url: api, 
             params: {
@@ -165,62 +165,55 @@ export default {
         })
         .then((res) => {
             if(res.status === 200){
-              const arr = res.data.map(item => {
-                if ('activities' in item){  //  in case the API is V2:
-                  let obj = {};
-
-                  for(let i = 0; i < item.activities.length; i++) {
-                    if(item.activities.length > 1) {
-                      debugger
-                      item.activities.every(v => {
-                        debugger
-                        obj = {
-                          ...v,
-                          resource_type: item.resource_type
-                        }
-                        return false
-                      });
-
-                      break;
-                    } else {
-                      obj = {
-                        ...item.activities[i],
-                        resource_type: item.resource_type
-                      }
-                    }
-                    
-                  }
-
-                  debugger
-
-                  return obj;
-                }else{
-                  return item;
-                }
-              });
-              this.setMonths(arr);
-              this.setActivities(arr);
-              this.handleModal();
+              this.handleAPIResponse({api: this.currentAPI, data: res.data}) 
             }else{
                 console.log(res);
             }
         });
     },
 
-    setMonths(arr) {
-      const months = arr.map(({d_created}) => {
-        const monthNum = dayjs(d_created).month();
-        const monthName = this.allMonthNames[monthNum];
-        return monthName;
+    handleAPIResponse({api, data}) {
+      let arr = []
+
+      data.forEach((item, index) => {
+        if(api === "v1"){
+          item.d_created = this.getTimeStamp(item.d_created);
+          arr.push(item);
+        }else{
+          item.activities.forEach(elem => {
+            elem.d_created = this.getTimeStamp(elem.d_created);
+            arr.push({
+              ...elem,
+              resource_type: item.resource_type
+            });            
+          });
+        }
       });
+
+      this.setMonths(arr);
+      this.setActivities(arr);
+      this.handleModal();
+    },
+
+    getTimeStamp(time) {
+      return Number(time) * 1000;
+    },
+
+    getMonthName(unixtime) {
+      const monthNum = dayjs(unixtime).month();
+      return this.allMonthNames[monthNum];
+    },
+
+    setMonths(arr) {
+      const months = arr.map(item => this.getMonthName(item.d_created));
       const uniqueMonthNames = [...new Set(months)];
+      debugger
       this.months = uniqueMonthNames;
     },
 
     setActivities(arr) {
       arr.map((item) => {
-        const monthNum = dayjs(item.d_created).month();
-        const monthName = this.allMonthNames[monthNum];
+        const monthName = this.getMonthName(item.d_created);
         const title = `${item.topic_data.name} ${item.resource_type.replaceAll("_", " ")}`
         this.activities.push({
           monthName,
