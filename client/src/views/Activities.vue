@@ -207,8 +207,7 @@ export default {
     setMonths(arr) {
       const months = arr.map(item => this.getMonthName(item.d_created));
       const uniqueMonthNames = [...new Set(months)];
-      debugger
-      this.months = uniqueMonthNames;
+      this.months = this.sortByMonth(uniqueMonthNames);
     },
 
     setActivities(arr) {
@@ -221,6 +220,13 @@ export default {
           ...item
         })
       });
+    },
+
+    sortByMonth(arr) {
+      const sortedMonths = arr.sort((a, b) => {
+        return (this.allMonthNames.indexOf(a) < this.allMonthNames.indexOf(b) ? 1 : -1);
+      });
+      return sortedMonths;
     },
 
     dateAndTime(timestamp) {
