@@ -62,21 +62,22 @@ export default {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%,);
-        max-width: 55vw;
+        max-width: 50vw;
         width: 100%;
-        height: 75vh;
+        height: 74vh;
         border-radius: 20px;
-        border: 6px solid #a0a0a0;
-        padding: 30px;
+        border: 0.333rem solid #a0a0a0;
+        padding: 1.667rem;
         background: #fff;
+
         .close{
-            top: 30px;
-            right: 30px;
+            top: 1.667rem;
+            right: 1.667rem;
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 2.222rem;
+            height: 2.222rem;
             border-radius: 50%;
-            border: 5px solid #a0a0a0;
+            border: 0.333rem solid #a0a0a0;
             background: #fff;
 
             svg {
@@ -96,7 +97,7 @@ export default {
                 display: flex;
                 align-items: center;
                 flex-direction: column;
-                margin-top: 30px;
+                margin-top: 1.667rem;
                 .icon{
                     width: 5.5rem;
                     height: 5.5rem;
@@ -111,8 +112,8 @@ export default {
                 .details {
                     text-align: center;
                     p{
-                        font-size: 3rem;
-                        margin: 40px 0;
+                        font-size: 2.5rem;
+                        margin: 1.5rem 0;
                     }
                     .date{
                         font-size: 1.5rem;
@@ -122,17 +123,17 @@ export default {
 
             .comment {
                 font-weight: 700;
-                font-size: 3rem;
-                margin-top: 40px;
-                margin-left: 20px;
+                font-size: 2.5rem;
+                margin-top: 2rem;
+                margin-left: 1.111rem;
             }
             .score {
                 gap: 10px;
                 color: $secondary-color;
                 font-weight: 700;
-                font-size: 2rem;
+                font-size: 1.8rem;
                 margin-top: auto;
-                margin-left: 20px;
+                margin-left: 1.111rem;
 
                 span{
                     font-weight: 400;

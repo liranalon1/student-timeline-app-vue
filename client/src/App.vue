@@ -10,9 +10,18 @@
   @import "/src/styles/variables.scss";
   @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap";
 
+  :root{
+    font-size: 18px;
+  }
+
   #app {
     color: $primary-color;
     font-family: $primary-font;
-    font-size: 18px;
   }
+
+  @media screen and (max-width: 1366px) {
+    :root{
+      font-size: 14px;
+    }
+  }  
 </style>

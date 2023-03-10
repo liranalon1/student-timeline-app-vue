@@ -287,7 +287,7 @@ export default {
   .activities{
     h1{
       font-weight: 900;
-      font-size: 40px;
+      font-size: 2.222rem;
     }
 
     .main-list{
@@ -299,36 +299,36 @@ export default {
         height: 40px;
         background: #fcf7e1;
         border-radius: 50px;
-        font-size: 20px;
+        font-size: 1.111rem;
       }
 
       ul{
 
         .row{
           position: relative;
-          height: 150px;
+          height: 8.333rem;
           justify-content: space-between;
           align-items: center;
           border-radius: 5px;
           border: 2px solid $grey-color;
           padding: 0 30px;
-          margin: 26px 0;
+          margin: 1.444rem 0;
 
           &::before, &:not(.lastRow)::after {
             content: "";
             position: absolute;
             left: 75px;
             width: 2px;
-            height: 28px;
+            height: 1.556rem;
             background: $grey-color;
           }
 
           &::before {
-            top: -28px;
+            top: -1.556rem;
           }
 
           &::after {
-            bottom: -28px;
+            bottom: -1.556rem;
           }
 
           ::v-deep .details-item {
