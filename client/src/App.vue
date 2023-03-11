@@ -11,7 +11,7 @@
   @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap";
 
   :root{
-    font-size: 18px;
+    font-size: 16px;
   }
 
   #app {

@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Activities from '../views/Activities.vue';
+import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'activities',
-    component: Activities,
+    name: 'home',
+    component: Home,
     children: [
       {
         path: ':modal'

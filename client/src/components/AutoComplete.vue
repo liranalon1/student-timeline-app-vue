@@ -2,7 +2,7 @@
     <div class="auto-complete">
         <ul class="flex">
             <li 
-                v-for="item in items" 
+                v-for="item in sortList(items)" 
                 :key="item.title"
                 @click="selectItem(item.title)">
                 {{ item.title }}
@@ -21,6 +21,9 @@ export default {
     selectItem(item) {
         this.$emit('input', item);
         this.$emit('autoComplete', false);
+    },
+    sortList(arr) {
+        return arr.sort((a, b) => (a.title < b.title ? -1 : 1));
     }
   },
 };
@@ -35,13 +38,13 @@ export default {
     .auto-complete {
         position: absolute;
         z-index: 1;
-        top: 52px;
+        top: 3rem;
         width: 100%;
-        max-height: 270px;
+        max-height: 16.875rem;
         background: #fff;
         border: 2px solid $grey-color;
         border-top: none;
-        overflow-x: auto;        
+        overflow-x: auto;
         ul {
             flex-direction: column;
             li{
