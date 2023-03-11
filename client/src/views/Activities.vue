@@ -6,10 +6,17 @@
       <button class="switch-api" @click="toggleAPI">Switch API >></button>
 
       <div class="search-wrap">
-        <Search v-model="searchValue" />
+        <Search 
+          v-model="searchValue"
+          @autoComplete="handleShowAutoComplete"
+        />
         <AutoComplete 
-          v-if="filteredList.length && searchValue"
-          :items="filteredList" />
+          v-if="handleAutoComplete"
+          v-model="searchValue"
+          @autoComplete="handleShowAutoComplete"
+          :value="searchValue"
+          :items="filteredList" 
+        />
       </div>
       <FilterNav v-model="tabValue" />
       <Modal 
@@ -203,7 +210,6 @@ export default {
 
     handleAPIResponse({api, data}) {
       let arr = []
-
       data.forEach(item => {
         if(api === "v1"){
           item.d_created = this.getTimeStamp(item.d_created);
@@ -296,6 +302,10 @@ export default {
       const images = require.context('../assets/topics', false, /\.png$/);
       return images(`./${name.replaceAll(' ', '')}.png`);
     },
+    
+    handleShowAutoComplete(event) {
+      this.showAutoComplete = event;
+    },
   },
   computed: {
     filteredList() {
@@ -307,6 +317,9 @@ export default {
     },
     handleLoadMore() {
       return this.activitiesToShow < this.activities.length || this.activities.length > this.activitiesToShow;
+    },
+    handleAutoComplete() {
+      return this.showAutoComplete && this.filteredList.length && this.searchValue !== "";
     },
   },
 }

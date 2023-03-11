@@ -1,21 +1,31 @@
 <template>
     <div class="serach">
-        <input type="text" placeholder="Search Timeline" autofocus @input="search($event)" />
+        <input 
+            type="text" 
+            placeholder="Search Timeline" 
+            autofocus 
+            @input="search($event)" 
+            :value="value" 
+        />
         <div class="search-icon"><font-awesome-icon icon="magnifying-glass" /></div>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'Search',
-  props: {
-    
-  },
-  methods: {
-    search(e) {
-        this.$emit('input', e.target.value.trim());
-    }    
-  },
+    name: 'Search',
+    props: {
+        value: String,
+    },
+    data() {
+        return {}
+    },
+    methods: {
+        search(e) {
+            this.$emit('input', e.target.value.trim());
+            this.$emit('autoComplete', true);
+        }    
+    }, 
 };
 </script>
 

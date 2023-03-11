@@ -1,7 +1,12 @@
 <template>
     <div class="auto-complete">
         <ul class="flex">
-            <li v-for="item in items" :key="item.title">{{ item.title }}</li>
+            <li 
+                v-for="item in items" 
+                :key="item.title"
+                @click="selectItem(item.title)">
+                {{ item.title }}
+            </li>
         </ul>
     </div>
 </template>
@@ -13,7 +18,10 @@ export default {
     items: Array,
   },
   methods: {
-       
+    selectItem(item) {
+        this.$emit('input', item);
+        this.$emit('autoComplete', false);
+    }
   },
 };
 </script>
@@ -38,6 +46,7 @@ export default {
             flex-direction: column;
             li{
                 padding: 10px;
+                cursor: pointer;
             }
         }
     }
