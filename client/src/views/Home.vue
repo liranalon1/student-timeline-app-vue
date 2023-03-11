@@ -40,7 +40,7 @@
   import FilterNav from '@/components/FilterNav.vue';
   import Modal from '@/components/Modal.vue';
   import { callAPI } from "@/services";
-  import dayjs from 'dayjs';
+  import { checkIfArray, getTimeStamp, getMonthName, sortByMonth } from "@/utils";
 
   export default {
     name: 'home',
@@ -58,7 +58,6 @@
         showAutoComplete: false,
         tabValue: "",
         searchValue: "",
-        allMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         months: [],
         activities: [],
         selectedActivity: {},
@@ -155,6 +154,7 @@
           })
           .then((res) => {
               if(res.status === 200){
+                checkIfArray(res.data);
                 this.handleAPIResponse({api: this.currentAPI, data: res.data}) 
               }else{
                   console.log(res);
@@ -166,11 +166,11 @@
         let arr = []
         data.forEach(item => {
           if(api === "v1"){
-            item.d_created = this.getTimeStamp(item.d_created);
+            item.d_created = getTimeStamp(item.d_created);
             arr.push(item);
           }else{
             item.activities.forEach(elem => {
-              elem.d_created = this.getTimeStamp(elem.d_created);
+              elem.d_created = getTimeStamp(elem.d_created);
               arr.push({
                 ...elem,
                 resource_type: item.resource_type
@@ -184,24 +184,15 @@
         this.handleShowModal();
       },
 
-      getTimeStamp(time) {
-        return Number(time) * 1000;
-      },
-
-      getMonthName(unixtime) {
-        const monthNum = dayjs(unixtime).month();
-        return this.allMonthNames[monthNum];
-      },
-
       setMonths(arr) {
-        const months = arr.map(item => this.getMonthName(item.d_created));
+        const months = arr.map(item => getMonthName(item.d_created));
         const uniqueMonthNames = [...new Set(months)];
-        this.months = this.sortByMonth(uniqueMonthNames);
+        this.months = sortByMonth(uniqueMonthNames);
       },
 
       setActivities(arr) {
         arr.map((item) => {
-          const monthName = this.getMonthName(item.d_created);
+          const monthName = getMonthName(item.d_created);
           const title = `${item.topic_data.name} ${item.resource_type.replaceAll("_", " ")}`
           this.activities.push({
             monthName,
@@ -209,17 +200,6 @@
             ...item
           })
         });
-      },
-
-      sortByMonth(arr) {
-        const sortedMonths = arr.sort((a, b) => {
-          return (this.allMonthNames.indexOf(a) < this.allMonthNames.indexOf(b) ? 1 : -1);
-        });
-        return sortedMonths;
-      },
-
-      dateAndTime(timestamp) {
-        return dayjs(timestamp).format("MMM D, YYYY · h:mm a");
       },
 
       handleModal(item) {
