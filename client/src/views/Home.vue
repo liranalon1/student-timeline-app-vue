@@ -117,17 +117,17 @@
       init() {
         const expr = this.$route.path;
         switch (expr) {
-          case '/v1':
+          case "/v1":
             this.currentAPI = "v1";
             this.getData(`activities/v1`);
             break;
-          case '/v2':
+          case "/v2":
             this.currentAPI = "v2";
-            this.getData(`activities/v2`);
+            this.getData("activities/v2");
             break;
           default:
             this.currentAPI = "v1";
-            this.getData(`activities/v1`);
+            this.getData("activities/v1");
         }
       },
 
@@ -136,10 +136,15 @@
       },
 
       toggleAPI() {
-        if( this.currentAPI === "v1" ){
-          this.currentAPI = "v2";
-        }else{
-          this.currentAPI = "v1";
+        const expr = this.currentAPI;
+        switch (expr) {
+          case "v1":
+            this.currentAPI = "v2";
+            break;
+          case "v2":
+            this.currentAPI = "v1";
+            break;
+          default:
         }
         this.activities.splice(0);
         this.getData(`activities/${this.currentAPI}`);

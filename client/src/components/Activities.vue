@@ -198,11 +198,11 @@ export default {
             gap: 30px;
             .view-work, .score {
               color: $secondary-color;
-              font-weight: 700;
+              font-weight: 900;
             }
 
             .score {
-              gap: 1.667rem;
+              gap: 0.625rem;
 
               span{
                 font-weight: 400;

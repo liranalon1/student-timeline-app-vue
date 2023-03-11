@@ -104,10 +104,13 @@ export default {
     margin: 1.111rem 0;
   }
   nav{
+    overflow-y: hidden;
+    overflow-x: auto;
     margin-bottom: 1.667rem;
     ul{
       gap: 0.667rem;
       li {
+        flex: 0 0 auto;
         a{
           align-items: center;
           justify-content: center;

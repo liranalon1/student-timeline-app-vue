@@ -139,7 +139,7 @@ export default {
                 .score {
                     gap: 10px;
                     color: $secondary-color;
-                    font-weight: 700;
+                    font-weight: 900;
                     font-size: 1.8rem;
                     margin-top: auto;
                     margin-left: 1.111rem;
