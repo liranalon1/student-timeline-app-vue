@@ -10,10 +10,6 @@
   @import "/src/styles/variables.scss";
   @import "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap";
 
-  :root{
-    font-size: 16px;
-  }
-
   #app {
     color: $primary-color;
     font-family: $primary-font;
