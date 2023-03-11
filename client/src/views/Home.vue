@@ -248,14 +248,6 @@
         }
       },
 
-      handleScore(resourceType) {
-        return this.activityTypes[resourceType] !== undefined && this.activityTypes[resourceType].score;
-      },
-
-      handleZoom(resourceType) {
-        return this.activityTypes[resourceType] !== undefined && this.activityTypes[resourceType].zoom;
-      },
-
       getImgSrc(name) {
         const images = require.context('../assets/topics', false, /\.png$/);
         return images(`./${name.replaceAll(' ', '')}.png`);
