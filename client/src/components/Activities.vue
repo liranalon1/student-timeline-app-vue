@@ -66,7 +66,6 @@ export default {
   data() {
     return {
       activitiesToShow: 10,
-      allMonthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       selectedActivity: {},
       activityTypes: {
         "movie": {

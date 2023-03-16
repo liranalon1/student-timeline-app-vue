@@ -72,25 +72,23 @@ export default {
       ],
     }
   },
-  mounted() {},
   methods: {
     handleTab({index, tabName}) {
       this.tabs.forEach((elem, i) => {
         if(i === index){
           elem.isActive = true;
-        }else{
+        } else{
           elem.isActive = false;
         }
       });
 
       if( tabName === "All Work" ) {
         this.$emit('input', "");  
-      }else{
+      } else{
         this.$emit('input', tabName);
       }
     }    
   },
-  computed: {},
 };
 </script>
 
